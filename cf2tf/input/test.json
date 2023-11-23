@@ -1,0 +1,119 @@
+{
+    "Resources": {
+     "v3906a1507a8c11eebac62b6d7e9a1267InstanceProfileC217ABBB": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+       "Roles": [
+        "ecr-full-access"
+       ]
+      },
+      "Metadata": {
+       "aws:cdk:path": "EC21700387416410-3b5825fe-04b4-42ec-a7ca-0fe5b10e70d2/v3906a150-7a8c-11ee-bac6-2b6d7e9a1267/InstanceProfile"
+      }
+     },
+     "v3906a1507a8c11eebac62b6d7e9a12672F602788": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+       "AvailabilityZone": "ap-northeast-2a",
+       "IamInstanceProfile": {
+        "Ref": "v3906a1507a8c11eebac62b6d7e9a1267InstanceProfileC217ABBB"
+       },
+       "ImageId": "ami-0f6fdd05c7b50bbd6",
+       "InstanceType": "t3.micro",
+       "Tags": [
+        {
+         "Key": "Name",
+         "Value": "ApplicationDeployEC2123"
+        }
+       ],
+       "UserData": {
+        "Fn::Base64": "#!/bin/bash"
+       }
+      },
+      "Metadata": {
+       "aws:cdk:path": "EC21700387416410-3b5825fe-04b4-42ec-a7ca-0fe5b10e70d2/v3906a150-7a8c-11ee-bac6-2b6d7e9a1267/Resource"
+      }
+     },
+     "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+       "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzQw0TNQTCwv1k1OydbNyUzSqw4uSUzO1glKLc4vLUpO1QHKxVenJhvpVXvmFZck5gGFnNPyYOxanczEXD0kgYCi/LTMHKA4UMy/tKSgtATEgplWq5OXn5Kql1WsX2ZkqGcItDqrODNTt6g0ryQzN1UvCEIDAI3DlriXAAAA"
+      },
+      "Metadata": {
+       "aws:cdk:path": "EC21700387416410-3b5825fe-04b4-42ec-a7ca-0fe5b10e70d2/CDKMetadata/Default"
+      }
+     }
+    },
+    "Outputs": {
+     "uuid": {
+      "Value": "v3906a150-7a8c-11ee-bac6-2b6d7e9a1267"
+     },
+     "instanceId": {
+      "Value": {
+       "Ref": "v3906a1507a8c11eebac62b6d7e9a12672F602788"
+      }
+     },
+     "privateIp": {
+      "Value": {
+       "Fn::GetAtt": [
+        "v3906a1507a8c11eebac62b6d7e9a12672F602788",
+        "PrivateIp"
+       ]
+      }
+     },
+     "instanceName": {
+      "Value": "ApplicationDeployEC2123"
+     },
+     "publicIp": {
+      "Value": {
+       "Fn::GetAtt": [
+        "v3906a1507a8c11eebac62b6d7e9a12672F602788",
+        "PublicIp"
+       ]
+      }
+     },
+     "publicDnsName": {
+      "Value": {
+       "Fn::GetAtt": [
+        "v3906a1507a8c11eebac62b6d7e9a12672F602788",
+        "PublicDnsName"
+       ]
+      }
+     }
+    },
+    "Parameters": {
+     "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+     }
+    },
+    "Rules": {
+     "CheckBootstrapVersion": {
+      "Assertions": [
+       {
+        "Assert": {
+         "Fn::Not": [
+          {
+           "Fn::Contains": [
+            [
+             "1",
+             "2",
+             "3",
+             "4",
+             "5"
+            ],
+            {
+             "Ref": "BootstrapVersion"
+            }
+           ]
+          }
+         ]
+        },
+        "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+       }
+      ]
+     }
+    }
+   }
+   

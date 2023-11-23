@@ -1,0 +1,185 @@
+{
+ "Resources": {
+  "v137fc243ed69647e6ba1a97005485733cInstanceSecurityGroupC923A681": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/v137fc243e-d696-47e6-ba1a-97005485733c/InstanceSecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "createdByAPI"
+     }
+    ],
+    "VpcId": "vpc-0719a1184fa5ccdcd"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/v137fc243e-d696-47e6-ba1a-97005485733c/InstanceSecurityGroup/Resource"
+   }
+  },
+  "v137fc243ed69647e6ba1a97005485733cInstanceRoleD597B8BE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "createdByAPI"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/v137fc243e-d696-47e6-ba1a-97005485733c/InstanceRole/Resource"
+   }
+  },
+  "v137fc243ed69647e6ba1a97005485733cInstanceProfile8ABF7C67": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "v137fc243ed69647e6ba1a97005485733cInstanceRoleD597B8BE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/v137fc243e-d696-47e6-ba1a-97005485733c/InstanceProfile"
+   }
+  },
+  "v137fc243ed69647e6ba1a97005485733c7DE10E84": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "ap-northeast-2a",
+    "IamInstanceProfile": {
+     "Ref": "v137fc243ed69647e6ba1a97005485733cInstanceProfile8ABF7C67"
+    },
+    "ImageId": {
+     "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter"
+    },
+    "InstanceType": "t2.micro",
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "v137fc243ed69647e6ba1a97005485733cInstanceSecurityGroupC923A681",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": "subnet-043aec505f84e38ac",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "createdByAPI"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": "#!/bin/bash"
+    }
+   },
+   "DependsOn": [
+    "v137fc243ed69647e6ba1a97005485733cInstanceRoleD597B8BE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/v137fc243e-d696-47e6-ba1a-97005485733c/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WOzQrCMBCEn8V7utoehJ49iCdL+wAS0y1sf5Ky2SgS8u62ak+ehvlmBqaAMofDTj99ZtohG+kOsRFtBlWjd4ENqiW7RTQFxIv1ou2CGjSBSV5ndmFWp87+ga2aFOkJYu1GXPGmW1yx62jElFZYadYTCvJqrkHmIJ/N70hS1rUIvd8/8iPk5XK790QZBys0IdRffQNVXKRW0gAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "EC21694246772371-885dbeb0-3cb7-41b2-a7f9-31d07be8d844/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+   "Default": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Outputs": {
+  "uuid": {
+   "Value": "v137fc243e-d696-47e6-ba1a-97005485733c"
+  },
+  "instanceId": {
+   "Value": {
+    "Ref": "v137fc243ed69647e6ba1a97005485733c7DE10E84"
+   }
+  },
+  "privateIp": {
+   "Value": {
+    "Fn::GetAtt": [
+     "v137fc243ed69647e6ba1a97005485733c7DE10E84",
+     "PrivateIp"
+    ]
+   }
+  },
+  "instanceName": {
+   "Value": "createdByAPI"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
